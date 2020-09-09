@@ -1,6 +1,7 @@
 # A simplified Jira clone built with Angular 9 and Akita
 
-> In response to numerous positive feedbacks, I have already started working on Phase 2 together with my friends [Chau Tran][chau] and [Tiep Phan][tiep]. We will bring the GraphQL and Authentication to "live" soon.
+> Phase two will not be completed as planned for 25 July. Both [Chau Tran][chau] and I was too busy with some other commitments.
+> You can check the latest Tetris game that I built with Angular and Akita in the meantime ➡ [tetris.trungk18.com](https://tetris.trungk18.com/) 🎮
 >
 > Thanks for your continuous support. Stay tuned! :muscle:
 
@@ -13,7 +14,9 @@ This is not only a simplified Jira clone built with Angular 9, but also an examp
   <p>
 
 - [A simplified Jira clone built with Angular 9 and Akita](#a-simplified-jira-clone-built-with-angular-9-and-akita)
+
   - [Working application](#working-application)
+  - [Support](#support)
   - [Who is it for 🤷‍♀️](#who-is-it-for-️)
   - [Tech stack](#tech-stack)
   - [High level design](#high-level-design)
@@ -45,10 +48,13 @@ Check out the **live demo** -> https://jira.trungk18.com
 
 ![Jira clone built with Angular 9 and Akita][demo]
 
+## Support
+
 If you like my work, feel free to:
 
+- ⭐ this repository. And we will be happy together :)
 - [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)][tweet] about Angular Jira clone
-- :star: this repository. And we will be happy together :)
+- <a title="Thanks for your support!" href="https://www.buymeacoffee.com/tuantrungvo" target="_blank"><img src="https://res.cloudinary.com/dvujyxh7e/image/upload/c_thumb,w_140,g_face/v1596378474/default-orange_uthxgz.jpg" alt="Buy Me A Coffee"></a>
 
 Thanks a bunch for stopping by and supporting me!
 
@@ -151,7 +157,7 @@ I will take two weeks break to:
 
 ### Phase 2
 
-> July 10 - 25, 2020
+> September 2020
 
 - [ ] Refactor the mono repo to use Nx Workspace
 - [ ] GraphQL API and store data on the actual database
@@ -171,11 +177,19 @@ Its series will also be published in Vietnamese as part of our [angular-vietnam/
 
 | Part | Description                                                                     | Status |
 | ---- | ------------------------------------------------------------------------------- | ------ |
+| -1   | [Behind the 900 stars repository - Slide][part-1]                               | Done   |
 | 00   | [Prerequisites][part00]                                                         | Done   |
 | 01   | [Create a new repository and set up a new Angular application with CLI][part01] | Done   |
+| 02   | [Build the application layout with flex and TailwindCSS][part02]                | Done   |
+| 03   | [Setup Akita state management][part03]                                          | Done   |
+| 04   | [Build an editable textbox][part04]                                          | Done   |
 
+[part-1]: https://slides.com/tuantrungvo/behind-the-900-star-repository-jira-clone-angular
 [part00]: https://trungk18.com/experience/angular-jira-clone-tutorial-00-prerequisites
 [part01]: https://trungk18.com/experience/angular-jira-clone-tutorial-01-planning-and-set-up
+[part02]: https://trungk18.com/experience/angular-jira-clone-tutorial-02-application-layout-tailwindcss-flex
+[part03]: https://trungk18.com/experience/angular-jira-clone-tutorial-03-akita-state-management
+[part04]: https://trungk18.com/experience/angular-jira-clone-tutorial-04-editable-textbox/
 [todo-list]: https://www.notion.so/trungk18/Tasks-636be5c5c0dd4d8cab30808e4e41facc
 
 ## Time spending
@@ -208,10 +222,39 @@ Not all components have properly defined [aria attributes](https://developer.moz
 
 - `git clone https://github.com/trungk18/jira-clone-angular.git`
 - `cd jira-clone-angular`
-- `npm run start:back` for the API
-- The API server should run on `http://localhost:3000`
 - `npm run start:front` for angular web application
 - The app should run on `http://localhost:4200/`
+
+> Update August 02, 2020: I changed the the API to use two simple JSON files for project and user. The API on heroku will go to sleep after sometimes idle. Therefore, if you open the webpage after a while without anyone using before, it will be very slow for the first load.
+
+If you still want to use the API, you should follow those steps:
+
+- `npm run start:back` for the API
+- The API server should run on `http://localhost:3000`
+- Open `environment.ts` and `environment.prod.ts` and uncomment the actual URL.
+- Open `auth.service.ts`, change
+
+```ts
+this._http.get<JUser>(`${this.baseUrl}/auth.json`);
+```
+
+to
+
+```ts
+this._http.post<JUser>(`${this.baseUrl}/auth`, { email, password });
+```
+
+- Open `project.service.ts` and change
+
+```ts
+this._http.get<JProject>(`${this.baseUrl}/project.json`);
+```
+
+to
+
+```ts
+this._http.get<JProject>(`${this.baseUrl}/project`);
+```
 
 ### Unit/Integration tests 🧪
 
